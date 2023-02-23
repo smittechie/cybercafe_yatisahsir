@@ -6,10 +6,10 @@
 <div class="container" align="center">
     <form method="post">
         {% csrf_token %}
-        <h2 class="text-center">Log in to your account</h2>
+        <h2 class="text-center">Add System</h2>
         {{form.as_p}}
 
-        <input type="submit" value="Login" class="btn btn-primary full-width">
+        <a type="submit" href='{% url "home" %}'><button class="btn btn-primary full-width"> submit </button></a>
 
     </form>
 </div>

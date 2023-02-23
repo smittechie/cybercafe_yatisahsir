@@ -1,0 +1,98 @@
+{% extends 'cafeapp/base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+<a href='{% url "add_system" %}'>
+    <button style="position:relative;" class="work"> Add_system</button>
+</a>
+<a href='{% url "home" %}'>
+    <button style="position:relative;" class="work"> Remove_system</button>
+</a>
+
+
+<div class="container mt-4">
+    <table class="table table-bordered table-responsive card-1 p-4 table-striped ">
+        <thead class="table-dark">
+        <tr class="border-bottom" style="height:20px;">
+            <th>
+                <span class="ml-8">Select</span>
+            </th>
+
+            <th>
+                <span class="ml-8">Name</span>
+            </th>
+            <th>
+                <span class="ml-2">Graphic_card</span>
+            </th>
+            <th>
+                <span class="ml-2">Processor</span>
+            </th>
+            <th>
+                <span class="ml-2">RAM</span>
+            </th>
+            <th>
+                <span class="ml-4">RAM_Unit</span>
+            </th>
+            <th>
+                <span class="ml-4">Status</span>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+
+        <tr class="border-bottom">
+            <td>
+
+   <form action="{% url 'remove_system' pk=object.id %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="Submit">
+</form>
+            </td>
+            <td>
+                <div class="p-2">
+                    <span class="d-block font-weight-bold">{{object.name}}</span>
+                </div>
+            </td>
+            <td>
+                <div class="p-2 d-flex flex-row align-items-center mb-2">
+                    <div class="d-flex flex-column ml-2">
+                        <span class="d-block font-weight-bold">{{object.graphic_card}}</span>
+                    </div>
+                </div>
+
+            </td>
+            <td>
+                <div class="p-2">
+                    <span class="font-weight-bold">{{object.processor}}</span>
+                </div>
+            </td>
+            <td>
+                <div class="p-2 d-flex flex-column">
+                    <span>{{object.ram}}</span>
+                </div>
+            </td>
+            <td>
+                <div class="p-2 d-flex flex-column">
+                    <span>{{object.ram_unit}}</span>
+                </div>
+            </td>
+            <td>
+                <div class="p-2 d-flex flex-column">
+                    <span>{{object.status}}</span>
+                </div>
+            </td>
+
+        </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+
+
+{% endblock %}

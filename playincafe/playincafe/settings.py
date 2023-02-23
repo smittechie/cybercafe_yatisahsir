@@ -131,6 +131,8 @@ AUTH_USER_MODEL = 'cafeapp.User'
 
 # LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = 'logout'
+
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
