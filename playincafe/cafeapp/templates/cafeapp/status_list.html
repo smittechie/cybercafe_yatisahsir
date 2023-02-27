@@ -1,0 +1,14 @@
+{% extends 'cafeapp/base.html' %}
+{% load static %}
+
+
+{% block body %}
+    {% for object in objects %}
+    <li>{{ object.user_system }}</li>
+    <li>{{ object.user }}</li>
+
+{% endfor %}
+
+
+
+{% endblock %}

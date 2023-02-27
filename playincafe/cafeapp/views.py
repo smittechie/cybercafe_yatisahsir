@@ -2,12 +2,15 @@ from django.shortcuts import render
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView ,UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.shortcuts import reverse
-from .models import System
+from .models import System, User, Status
 from django.http import HttpResponseRedirect
+from django.views.generic.base import TemplateView
+
+
 
 # Create your views here.
 class MyLoginView(LoginView):
@@ -26,6 +29,7 @@ class SystemAddView(CreateView):
     model = System
     fields = "__all__"
     success_url = "system_detail"
+    template_name = "cafeapp/add_system.html"
 
 
 class SystemDetailView(ListView):
@@ -34,33 +38,31 @@ class SystemDetailView(ListView):
 
 class SystemDeleteView(DeleteView):
     model = System
-    sucess_url = 'system_detail'
+    success_url = reverse_lazy('system_detail')
 
-    def post(self, request, *args, **kwargs):
-        obj = self.get_object()
-        obj.delete()
-        return HttpResponseRedirect(reverse("system_detail"))
-    # template_name = 'geeksmodel_confirm_delete.html"'
+    # template_name = 'system_confirm_delete.html'
 
-    # def get(self, request, *args, **kwargs):
-    #     some_var = request.POST
-    #     print(request.POST)
-    #     self.object = self.get_object()
-    #     context = self.get_context_data(object=self.object)
-    #     return self.render_to_response(context)
+    # def post(self, request, *args, **kwargs):
+    #     obj = self.get_object()
+    #     obj.delete()
+    #     return HttpResponseRedirect(reverse("system_detail"))
 
-# from django.http import HttpResponseRedirect
-# from django.shortcuts import render
-#
-# from .forms import NameForm
-#
-# def get_name(request):
-#     if request.method == 'POST':
-#         form = NameForm(request.POST)
-#         if form.is_valid():
-#             return HttpResponseRedirect('remove_system/')
-#
-#     else:
-#         form = NameForm()
-#
-#     return render(request, 'home.html', {'form': form})
+
+class AddUserView(CreateView):
+    model = User
+    fields = ['username', 'mobile_number', 'id_proof', 'email']
+    success_url = reverse_lazy("userlist")
+    template_name = 'cafeapp/add_user.html'
+
+
+class UserListView(ListView):
+    model = User
+    template_name = "cafeapp/user_list.html"
+
+
+class StatusofSysytems(ListView):
+    model = Status
+    # fields = ["user_system","user"]
+    template_name = 'cafeapp/status_list.html'
+    # success_url = "home"
+    context_object_name = "objects"

@@ -1,0 +1,73 @@
+{% extends 'cafeapp/base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+<a href='{% url "adduser" %}'>
+    <button style="position:relative;" class="work"> Add User</button>
+</a>
+
+
+<div class="container mt-4">
+    <table class="table table-bordered table-responsive card-1 p-4 table-striped ">
+        <thead class="table-dark">
+        <tr class="border-bottom" style="height:20px;">
+
+
+            <th>
+                <span class="ml-8">Name</span>
+            </th>
+            <th>
+                <span class="ml-2">mobile_number</span>
+            </th>
+            <th>
+                <span class="ml-2">id_proof</span>
+            </th>
+            <th>
+                <span class="ml-2">email</span>
+            </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+
+        <tr class="border-bottom">
+
+            <td>
+                <div class="p-2">
+                    <span class="d-block font-weight-bold">{{object.username}}</span>
+                </div>
+            </td>
+            <td>
+                <div class="p-2 d-flex flex-row align-items-center mb-2">
+                    <div class="d-flex flex-column ml-2">
+                        <span class="d-block font-weight-bold">{{object.mobile_number}}</span>
+                    </div>
+                </div>
+
+            </td>
+            <td>
+                <div class="p-2">
+                    <span class="font-weight-bold">{{object.id_proof}}</span>
+                </div>
+            </td>
+            <td>
+                <div class="p-2 d-flex flex-column">
+                    <span>{{object.email}}</span>
+                </div>
+            </td>
+
+
+        </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+
+
+{% endblock %}

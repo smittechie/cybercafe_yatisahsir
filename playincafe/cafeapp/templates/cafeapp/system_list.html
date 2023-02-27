@@ -5,10 +5,7 @@
 {% block body %}
 
 <a href='{% url "add_system" %}'>
-    <button style="position:relative;" class="work"> Add_system</button>
-</a>
-<a href='{% url "home" %}'>
-    <button style="position:relative;" class="work"> Remove_system</button>
+    <button style="position:relative;" class="work"> Add System</button>
 </a>
 
 
@@ -16,9 +13,7 @@
     <table class="table table-bordered table-responsive card-1 p-4 table-striped ">
         <thead class="table-dark">
         <tr class="border-bottom" style="height:20px;">
-            <th>
-                <span class="ml-8">Select</span>
-            </th>
+
 
             <th>
                 <span class="ml-8">Name</span>
@@ -38,19 +33,16 @@
             <th>
                 <span class="ml-4">Status</span>
             </th>
+            <th>
+                <span class="ml-8"> Delete </span>
+            </th>
         </tr>
         </thead>
         <tbody>
         {% for object in object_list %}
 
         <tr class="border-bottom">
-            <td>
 
-   <form action="{% url 'remove_system' pk=object.id %}" method="post">
-    {% csrf_token %}
-    <input type="submit" value="Submit">
-</form>
-            </td>
             <td>
                 <div class="p-2">
                     <span class="d-block font-weight-bold">{{object.name}}</span>
@@ -84,7 +76,12 @@
                     <span>{{object.status}}</span>
                 </div>
             </td>
-
+            <td>
+                <form action="{% url 'remove_system' pk=object.id %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Delete">
+                </form>
+            </td>
         </tr>
 
         {% endfor %}
