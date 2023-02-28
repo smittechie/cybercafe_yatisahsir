@@ -3,12 +3,45 @@
 
 
 {% block body %}
-    {% for object in objects %}
-    <li>{{ object.user_system }}</li>
-    <li>{{ object.user }}</li>
+<a href="{% url 'allotsysytem' %}">
+    <button class="work" >Allot System</button>
+</a>
 
-{% endfor %}
+<div class="container mt-4">
+    <table class="table table-bordered  card-1 p-4 table-striped ">
+        <thead class="table-dark">
+        <tr class="border-bottom" style="height:20px;">
+            <th>
+                <span class="ml-8">User</span>
+            </th>
+            <th>
+                <span class="ml-2">System</span>
+            </th>
 
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+
+        <tr class="border-bottom">
+            <td>
+                <div class="p-2">
+                    <span class="d-block font-weight-bold">{{object.user}}</span>
+                </div>
+            </td>
+            <td>
+                <div class="p-2 d-flex flex-row align-items-center mb-2">
+                    <div class="d-flex flex-column ml-2">
+                        <span class="d-block font-weight-bold">{{object.user_system}}</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 
 
 {% endblock %}

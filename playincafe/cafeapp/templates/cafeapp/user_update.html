@@ -1,0 +1,46 @@
+{% extends 'cafeapp/base.html' %}
+{% load static %}
+
+
+{% block body %}
+<div class="container" align="center">
+<form method="post">
+    {% csrf_token %}
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+
+            <label class="form-label">Username</label>
+            <br>
+            {{ form.username }}
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+
+            <label class="form-label">Mobile_number</label>
+            <br>
+            {{ form.mobile_number }}
+        </div>
+
+
+        <div class="form-outline mb-4">
+
+            <label class="form-label">Id_proof</label>
+            <br>
+            {{ form.id_proof }}
+        </div>
+
+            <div class="form-outline mb-4">
+
+            <label class="form-label">Email</label>
+            <br>
+            {{ form.email }}
+        </div>
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit" class="btn btn-primary mb-2">
+
+
+
+{% endblock %}

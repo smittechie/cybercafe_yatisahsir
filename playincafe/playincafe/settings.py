@@ -122,12 +122,12 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
+AUTH_USER_MODEL = 'cafeapp.User'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 
-""" Fields added manually """
-AUTH_USER_MODEL = 'cafeapp.User'
+"""""""""""""   Fields added manually   """""""""""""
 
 # LOGIN_REDIRECT_URL = "/"
 LOGIN_URL = 'login'
@@ -137,3 +137,13 @@ LOGOUT_REDIRECT_URL = 'logout'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+""" For message fields  """
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-secondary',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+}

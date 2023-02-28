@@ -1,0 +1,17 @@
+{% extends 'cafeapp/base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+<div class="container" align="center">
+    <form method="post">
+        {% csrf_token %}
+        <h2>Status</h2>
+        {{form.as_p}}
+        <input type="submit" value="Allot" class="btn btn-primary full-width">
+
+    </form>
+</div>
+
+{% endblock %}

@@ -4,14 +4,36 @@
 
 
 <div class="container" align="center">
-    <form method="post">
-        {% csrf_token %}
-        <h2 class="text-center">Log in to your account</h2>
-        {{form.as_p}}
+<form method="post">
+    {% csrf_token %}
 
-        <input type="submit" value="Login" class="btn btn-primary full-width">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
 
-    </form>
+            <label class="form-label">Email address</label>
+            <br>
+            {{ form.username }}
+        </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+
+            <label class="form-label">Password</label>
+            <br>
+            {{ form.password }}
+        </div>
+
+
+        <!-- Submit button -->
+        <input type="submit" value="Submit" class="btn btn-primary mb-2">
+
+
+
+</form>
 </div>
 
 {% endblock %}
+
+
+
+

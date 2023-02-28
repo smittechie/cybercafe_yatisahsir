@@ -8,9 +8,8 @@
     <button style="position:relative;" class="work"> Add User</button>
 </a>
 
-
 <div class="container mt-4">
-    <table class="table table-bordered table-responsive card-1 p-4 table-striped ">
+    <table class="table table-bordered card-1 p-4 table-striped ">
         <thead class="table-dark">
         <tr class="border-bottom" style="height:20px;">
 
@@ -26,6 +25,9 @@
             </th>
             <th>
                 <span class="ml-2">email</span>
+            </th>
+            <th>
+                <span class="ml-2">Edit</span>
             </th>
 
         </tr>
@@ -58,7 +60,13 @@
                     <span>{{object.email}}</span>
                 </div>
             </td>
-
+            <td>
+                <div class="p-2 d-flex flex-column">
+                    <a href="{% url 'update_user' object.id %}" >
+                    <button value="{{object.id}}">Edit</button>
+                </a>
+                </div>
+            </td>
 
         </tr>
 
