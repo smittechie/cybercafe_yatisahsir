@@ -1,5 +1,5 @@
 from django import forms
-from .models import Status, User
+from .models import Status, User, System
 from django.contrib.messages.views import SuccessMessageMixin
 from .choices import STATUS, OCCUPIED
 
@@ -11,13 +11,9 @@ class StatusForm(forms.ModelForm):
         model = Status
         fields = ['user_system', "user", "status"]
 
-    def save(self, commit=True):
-        inst = super().save(commit)
-        inst.status = OCCUPIED
-        inst.save()
-        return inst
-
-
+    def __init__(self, *args, **kwargs):
+        super(StatusForm, self).__init__(*args, **kwargs)
+        self.fields['user_system'].queryset = System.objects.filter(status="Available")
 
 
 class AddUserForm(forms.ModelForm):

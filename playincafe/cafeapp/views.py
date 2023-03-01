@@ -13,6 +13,7 @@ from .forms import StatusForm, AddUserForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .choices import STATUS
 
 
 # Create your views here.
@@ -60,7 +61,6 @@ class SystemDeleteView(LoginRequiredMixin, DeleteView):
         return HttpResponseRedirect(success_url)
 
 
-
 class AddUserView(LoginRequiredMixin, CreateView):
     login_url = 'login'
     model = User
@@ -80,6 +80,7 @@ class UserListView(LoginRequiredMixin, ListView):
     login_url = 'login'
     model = User
     template_name = "cafeapp/user_list.html"
+
 
 class UpdateUserview(UpdateView):
     model = User
@@ -102,8 +103,36 @@ class StatusofSysytems(LoginRequiredMixin, CreateView):
         context['form'] = StatusForm()
         return context
 
+    def post(self, request, *args, **kwargs):
+        print("post method calling.......")
+        print(request.POST)
+        used_system_id = (request.POST.get('user_system'))                  ### system(computer) used  in status model
+        all_system = Status.objects.all()
+        print(all_system)
+
+        # if used_system_id in all_system:
+        #     print(used_system_id)
+        #     messages.error(request, "already in use")
+
+        user_id = (request.POST.get('user'))                                            ### useer used in status model
+        status = (request.POST.get('status'))
+        print(used_system_id)
+        object_of_status = System.objects.get(id=used_system_id)
+        print("system statussssssss")
+        print(object_of_status.status)
+        object_of_status.status = status
+        object_of_status.save()
+        return super().post(request, *args, **kwargs)
+
 
 class StatusListofSysytems(LoginRequiredMixin, ListView):
     login_url = 'login'
     model = Status
     template_name = 'status_list.html'
+
+
+class Releaseview(UpdateView):
+    model = System
+    fields = ['name']
+    template_name = 'cafeapp/release.html'
+    success_url = reverse_lazy("sysytemstatuslist")

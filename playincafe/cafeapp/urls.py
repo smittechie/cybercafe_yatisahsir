@@ -1,7 +1,7 @@
 from django.urls import path, include
 from django.views.generic.base import TemplateView
 from .views import MyLoginView, SystemDetailView, SystemAddView, SystemDeleteView, AddUserView, UserListView, \
-    StatusofSysytems, StatusListofSysytems, UpdateUserview
+    StatusofSysytems, StatusListofSysytems, UpdateUserview, Releaseview
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -13,8 +13,9 @@ urlpatterns = [
     path('system/<int:pk>/', SystemDeleteView.as_view(), name='remove_system'),
     path('add_user/', AddUserView.as_view(), name='adduser'),
     path('userdetail/', UserListView.as_view(), name='userlist'),
-    path('allot_sysytem/', StatusofSysytems.as_view(), name='allotsysytem'),
+    path('allot_system/', StatusofSysytems.as_view(), name='allotsystem'),
     path('alloted_system_list/', StatusListofSysytems.as_view(), name='sysytemstatuslist'),
     path('update_user_view/<int:pk>/', UpdateUserview.as_view(), name='update_user'),
+    path('releasesystem/<int:pk>/', Releaseview.as_view(), name='releasesystem'),
 
 ]

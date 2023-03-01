@@ -3,8 +3,8 @@
 
 
 {% block body %}
-<a href="{% url 'allotsysytem' %}">
-    <button class="work" >Allot System</button>
+<a href="{% url 'allotsystem' %}">
+    <button class="work">Allot System</button>
 </a>
 
 <div class="container mt-4">
@@ -16,6 +16,9 @@
             </th>
             <th>
                 <span class="ml-2">System</span>
+            </th>
+            <th>
+                <span class="ml-2">Release</span>
             </th>
 
         </tr>
@@ -33,6 +36,15 @@
                 <div class="p-2 d-flex flex-row align-items-center mb-2">
                     <div class="d-flex flex-column ml-2">
                         <span class="d-block font-weight-bold">{{object.user_system}}</span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="p-2 d-flex flex-row align-items-center mb-2">
+                    <div class="d-flex flex-column ml-2">
+                        <a href="{% url 'releasesystem' object.id %}">
+                            <button class="work">Release</button>
+                        </a>
                     </div>
                 </div>
             </td>
