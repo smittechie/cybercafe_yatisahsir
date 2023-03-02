@@ -1,19 +1,27 @@
 from django import forms
-from .models import Status, User, System
+from .models import User, System, History
 from django.contrib.messages.views import SuccessMessageMixin
 from .choices import STATUS, OCCUPIED
 
 
 class StatusForm(forms.ModelForm):
-    status = forms.ChoiceField(choices=STATUS)
+    # status = forms.ChoiceField(choices=STATUS)
 
     class Meta:
-        model = Status
-        fields = ['user_system', "user", "status"]
+        model = History
+        fields = ["user_history", "system_name"]
 
     def __init__(self, *args, **kwargs):
         super(StatusForm, self).__init__(*args, **kwargs)
-        self.fields['user_system'].queryset = System.objects.filter(status="Available")
+        self.fields['system_name'].queryset = System.objects.filter(status="Available")
+
+
+""" Allot system form """
+# class StatusListofSysytemsForm(forms.ModelForm):
+#     class Meta:
+#         model = System
+#         fields ="__all__"
+
 
 
 class AddUserForm(forms.ModelForm):

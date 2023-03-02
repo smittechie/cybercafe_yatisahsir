@@ -6,8 +6,8 @@
 <a href="{% url 'allotsystem' %}">
     <button class="work">Allot System</button>
 </a>
-<a href="{% url 'history_list' %}">
-    <button class="work">History</button>
+<a href="{% url 'sysytemstatuslist' %}">
+    <button class="work">System List</button>
 </a>
 
 <div class="container mt-4">
@@ -18,10 +18,10 @@
                 <span class="ml-8">User</span>
             </th>
             <th>
-                <span class="ml-2">System</span>
+                <span class="ml-2">Login Time</span>
             </th>
             <th>
-                <span class="ml-2">Release</span>
+                <span class="ml-2">Logout Time</span>
             </th>
 
         </tr>
@@ -32,22 +32,20 @@
         <tr class="border-bottom">
             <td>
                 <div class="p-2">
-                    <span class="d-block font-weight-bold">{{object.user}}</span>
+                    <span class="d-block font-weight-bold">{{object.history}}</span>
                 </div>
             </td>
             <td>
                 <div class="p-2 d-flex flex-row align-items-center mb-2">
                     <div class="d-flex flex-column ml-2">
-                        <span class="d-block font-weight-bold">{{object.name}}</span>
+                        <span class="d-block font-weight-bold">{{object.login_time}}</span>
                     </div>
                 </div>
             </td>
             <td>
                 <div class="p-2 d-flex flex-row align-items-center mb-2">
                     <div class="d-flex flex-column ml-2">
-                        <a href="{% url 'releasesystem' object.id %}">
-                            <button class="work">Release</button>
-                        </a>
+                        <span class="d-block font-weight-bold">{{object.logout_time}}</span>
                     </div>
                 </div>
             </td>

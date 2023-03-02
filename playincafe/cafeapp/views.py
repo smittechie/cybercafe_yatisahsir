@@ -1,3 +1,6 @@
+from datetime import datetime
+from time import timezone
+import datetime
 from django.shortcuts import render
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
@@ -6,10 +9,10 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.shortcuts import reverse
-from .models import System, User, Status
+from .models import System, User, History
 from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView, View
-from .forms import StatusForm, AddUserForm
+from .forms import AddUserForm                  , StatusForm  # , StatusListofSysytemsForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -32,14 +35,17 @@ class MyLoginView(LoginView):
 class SystemAddView(LoginRequiredMixin, CreateView):
     login_url = 'login'
     model = System
-    fields = "__all__"
+    fields = ['name', 'graphic_card', 'processor', 'ram', 'ram_unit']
     success_url = "system_detail"
     template_name = "cafeapp/add_system.html"
 
     def form_valid(self, form):
         """If the form is valid, save the associated model."""
         self.object = form.save()
-        messages.success(self.request, "System added sucess fully ")
+        # profile = form.save(commit=False)
+        # self.object = self.name
+        # self.object.save()
+        messages.success(self.request, "System added successfully ")
         return super().form_valid(form)
 
 
@@ -89,16 +95,16 @@ class UpdateUserview(UpdateView):
     success_url = reverse_lazy("userlist")
 
 
-class StatusofSysytems(LoginRequiredMixin, CreateView):
+class AllotmentofSystemsView(LoginRequiredMixin, CreateView):
     login_url = 'login'
-    model = Status
-    fields = "__all__"
+    model = History
+    fields = '__all__'
     template_name = 'cafeapp/status_allot.html'
     success_url = "/alloted_system_list/"
 
     # context_object_name = "objects"
 
-    def get_context_data(self):
+    def get_context_data(self,**kwargs):
         context = super().get_context_data()
         context['form'] = StatusForm()
         return context
@@ -106,33 +112,45 @@ class StatusofSysytems(LoginRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
         print("post method calling.......")
         print(request.POST)
-        used_system_id = (request.POST.get('user_system'))                  ### system(computer) used  in status model
-        all_system = Status.objects.all()
-        print(all_system)
+        used_system_id = (request.POST.get('system_name'))  ### system(computer) used  in History model
 
-        # if used_system_id in all_system:
-        #     print(used_system_id)
-        #     messages.error(request, "already in use")
+        user_id = (request.POST.get('user_history'))             ### useer used in History model
 
-        user_id = (request.POST.get('user'))                                            ### useer used in status model
-        status = (request.POST.get('status'))
-        print(used_system_id)
         object_of_status = System.objects.get(id=used_system_id)
-        print("system statussssssss")
-        print(object_of_status.status)
-        object_of_status.status = status
+        object_of_status.status = "Occupied"
         object_of_status.save()
+
+        username_history = User.objects.get(id=user_id)
+        print(username_history)
+        # usernameinhistory = History.objects.all().filter(user_history =username_history )
+        # print(usernameinhistory)
+        logtime=datetime.datetime.now()
+        print(logtime)
+        History.objects.create(user_history= username_history ,system_name=object_of_status )
         return super().post(request, *args, **kwargs)
 
 
 class StatusListofSysytems(LoginRequiredMixin, ListView):
     login_url = 'login'
-    model = Status
-    template_name = 'status_list.html'
+    model = System
+    template_name = 'cafeapp/status_list.html'
+
+    def get_queryset(self):
+        # queryset = System.objects.filter(name == None).values()
+        queryset = System.objects.all().exclude(user=None)
+        return queryset
 
 
 class Releaseview(UpdateView):
     model = System
-    fields = ['name']
+    fields = ['user']
     template_name = 'cafeapp/release.html'
     success_url = reverse_lazy("sysytemstatuslist")
+
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        pass
+
+
+class HistoryListView(ListView):
+    model = History
