@@ -35,3 +35,8 @@ class History(models.Model):
     system_name = models.ForeignKey(System, on_delete=models.CASCADE, related_name="system_name")
     login_time = models.DateTimeField(default=timezone.now())
     logout_time = models.DateTimeField(blank=True, null=True)
+    is_deleted = models.BooleanField(default= False)
+
+    def soft_deleted(self):
+        self.is_deleted= True
+        self.save()

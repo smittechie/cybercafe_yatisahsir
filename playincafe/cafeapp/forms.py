@@ -16,12 +16,26 @@ class StatusForm(forms.ModelForm):
         self.fields['system_name'].queryset = System.objects.filter(status="Available")
 
 
+class ReleaseViewForm(forms.ModelForm):
+    class Meta:
+        model = History
+        fields = ['user_history', 'system_name']
+
+
+    """ Check how to disable choices """
+    # widgets = {
+    #     'user_history': forms.Select(attrs={"disabled": "disabled"}),
+    #     'system_name': forms.Select(attrs={'disabled': 'disabled'}),
+    # }
+
+
 """ Allot system form """
+
+
 # class StatusListofSysytemsForm(forms.ModelForm):
 #     class Meta:
 #         model = System
 #         fields ="__all__"
-
 
 
 class AddUserForm(forms.ModelForm):

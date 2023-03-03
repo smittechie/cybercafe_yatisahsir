@@ -1,7 +1,7 @@
 from datetime import datetime
 from time import timezone
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -12,7 +12,7 @@ from django.shortcuts import reverse
 from .models import System, User, History
 from django.http import HttpResponseRedirect
 from django.views.generic.base import TemplateView, View
-from .forms import AddUserForm                  , StatusForm  # , StatusListofSysytemsForm
+from .forms import AddUserForm, StatusForm, ReleaseViewForm  # , StatusListofSysytemsForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -100,11 +100,10 @@ class AllotmentofSystemsView(LoginRequiredMixin, CreateView):
     model = History
     fields = '__all__'
     template_name = 'cafeapp/status_allot.html'
-    success_url = "/alloted_system_list/"
 
     # context_object_name = "objects"
 
-    def get_context_data(self,**kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['form'] = StatusForm()
         return context
@@ -114,7 +113,7 @@ class AllotmentofSystemsView(LoginRequiredMixin, CreateView):
         print(request.POST)
         used_system_id = (request.POST.get('system_name'))  ### system(computer) used  in History model
 
-        user_id = (request.POST.get('user_history'))             ### useer used in History model
+        user_id = (request.POST.get('user_history'))  ### useer used in History model
 
         object_of_status = System.objects.get(id=used_system_id)
         object_of_status.status = "Occupied"
@@ -124,32 +123,43 @@ class AllotmentofSystemsView(LoginRequiredMixin, CreateView):
         print(username_history)
         # usernameinhistory = History.objects.all().filter(user_history =username_history )
         # print(usernameinhistory)
-        logtime=datetime.datetime.now()
+        logtime = datetime.datetime.now()
         print(logtime)
-        History.objects.create(user_history= username_history ,system_name=object_of_status )
-        return super().post(request, *args, **kwargs)
+        History.objects.create(user_history=username_history, system_name=object_of_status)
+        return redirect(reverse('sysytemstatuslist'))
 
 
 class StatusListofSysytems(LoginRequiredMixin, ListView):
     login_url = 'login'
-    model = System
+    model = History
     template_name = 'cafeapp/status_list.html'
 
     def get_queryset(self):
-        # queryset = System.objects.filter(name == None).values()
-        queryset = System.objects.all().exclude(user=None)
+        # queryset = History.objects.filter(is_deleted=False)
+
+        queryset = History.objects.all().exclude(user_history=None)
         return queryset
 
 
-class Releaseview(UpdateView):
-    model = System
-    fields = ['user']
+class ReleaseView(UpdateView):
+    model = History
+    # fields = ['user_history','system_name']
     template_name = 'cafeapp/release.html'
     success_url = reverse_lazy("sysytemstatuslist")
+    form_class = ReleaseViewForm
 
     def post(self, request, *args, **kwargs):
-        print(request.POST)
-        pass
+        systemid= request.POST.get("system_name")
+        sysobj = System.objects.get(id = systemid)
+        sysobj.status = 'Available'
+        sysobj.save()
+        self.object = self.get_object()
+        self.object.is_deleted = True
+        logouttime = datetime.datetime.now()
+        self.object.logout_time = logouttime
+        self.object.save()
+
+        return super().post(request, *args, **kwargs)
 
 
 class HistoryListView(ListView):
